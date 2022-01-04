@@ -22,5 +22,18 @@ services:
             HOST: "0.0.0.0"
             PORT: 5000
             FLASK_DEBUG: 1
+    frontend:
+        build: frontend
+        command: ["npm", "start"]
+        volumes:
+            - ./frontend:/frontend
+            - node-modules:/frontend/node_modules
+        environment:
+            - NODE_ENV=development
+        ports:
+            - '3000:3000'
+        depends_on:
+            - backend
 volumes:
-  mongo_db:
+    node-modules:
+    mongo_db:
