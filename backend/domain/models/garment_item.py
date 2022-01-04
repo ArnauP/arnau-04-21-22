@@ -10,7 +10,8 @@ class GarmentItem:
                  gender, price, product_description, image_urls,
                  product_imgs_src, source, product_categories,
                  images, position, product_title, brand, currency_code,
-                 stock) -> None:
+                 stock, id=None) -> None:
+        self.id = id
         self.product_categories_mapped = product_categories_mapped
         self.product_id = product_id
         self.url = url

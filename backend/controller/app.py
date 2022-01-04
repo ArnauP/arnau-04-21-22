@@ -53,6 +53,7 @@ def search():
     result = []
     for item in garment_items:
         result.append({
+            "_id": str(item.id),
             "thumbnail": item.image_urls[0],
             "product_title": item.product_title,
             "stock": item.stock,

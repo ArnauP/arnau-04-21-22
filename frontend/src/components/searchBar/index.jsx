@@ -225,7 +225,7 @@ export function SearchBar(props) {
           )}
           {!isLoading && isEmpty && !noGarmentItems && (
             <LoadingWrapper>
-              <WarningMessage>Start typing to Search</WarningMessage>
+              <WarningMessage>Start typing to search</WarningMessage>
             </LoadingWrapper>
           )}
           {!isLoading && noGarmentItems && (
@@ -237,6 +237,7 @@ export function SearchBar(props) {
             <>
               {garmentItems.map( garment => (
                 <GarmentItem
+                  key={garment._id}
                   thumbanilSrc={garment.thumbnail}
                   name={garment.product_title}
                   stock={garment.stock}
