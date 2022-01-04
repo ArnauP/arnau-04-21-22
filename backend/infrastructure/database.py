@@ -3,8 +3,8 @@ from pymongo import MongoClient
 
 def create_indexes(db_connection):
     db_connection.db.garment_items.create_index([
-        ("product_title", "text"), 
-        ("brand", "text"), 
+        ("product_title", "text"),
+        ("brand", "text"),
         ("product_description", "text")])
 
 

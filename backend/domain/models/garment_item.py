@@ -1,15 +1,16 @@
-class Image():
+class Image:
     def __init__(self, url, path, checksum) -> None:
         self.url = url
         self.path = path
         self.checksum = checksum
 
-class GarmentItem():
+
+class GarmentItem:
     def __init__(self, product_categories_mapped, product_id, url,
-                gender, price, product_description, image_urls, 
-                product_imgs_src, source, product_categories,
-                images, position, product_title, brand, currency_code,
-                stock) -> None:
+                 gender, price, product_description, image_urls,
+                 product_imgs_src, source, product_categories,
+                 images, position, product_title, brand, currency_code,
+                 stock) -> None:
         self.product_categories_mapped = product_categories_mapped
         self.product_id = product_id
         self.url = url

@@ -2,23 +2,18 @@ from domain.repositories import GarmentItemsRepositoryInterface
 from infrastructure.repositories import BaseRepository
 from domain.models import GarmentItem, Image
 
-from bson.json_util import dumps
 
-
-class MongoGarmentItemsRepository(BaseRepository, GarmentItemsRepositoryInterface):
-    
+class MongoGarmentItemsRepository(BaseRepository,
+                                  GarmentItemsRepositoryInterface):
     def insert(self, garment_item):
-        images = []
-        for image in garment_item.images:
-            images.append(
-                {
+        images = [{
                     "url": image.url,
                     "path": image.path,
                     "checksum": image.checksum
-                }
-            )
+                } for image in garment_item.images]
         json_data = {
-            "product_categories_mapped": garment_item.product_categories_mapped,
+            "product_categories_mapped":
+                garment_item.product_categories_mapped,
             "product_id": garment_item.product_id,
             "url": garment_item.url,
             "gender": garment_item.gender,
@@ -42,15 +37,14 @@ class MongoGarmentItemsRepository(BaseRepository, GarmentItemsRepositoryInterfac
             {"$text": {"$search": f'\"{text}\"'}})
         garment_items = []
         for document in cursor:
-            images = []
-            for image in document["images"]:
-                images.append(Image(
+            images = [Image(
                     url=image["url"],
                     path=image["path"],
                     checksum=image["checksum"]
-                ))
+                ) for image in document["images"]]
             garment_items.append(GarmentItem(
-                product_categories_mapped=document["product_categories_mapped"],
+                product_categories_mapped=document[
+                    "product_categories_mapped"],
                 product_id=document["product_id"],
                 url=document["url"],
                 gender=document["gender"],
