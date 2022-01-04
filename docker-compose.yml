@@ -1,0 +1,26 @@
+version: '3.8'
+services: 
+    mongodb:
+        image: mongo
+        container_name: mongodb
+        environment:
+            - PUID=1000
+            - PGID=1000
+        volumes:
+            - mongo_db:/data/db
+        ports:
+            - 27017:27017
+        restart: unless-stopped
+    backend:
+        build: ./backend/
+        volumes: 
+            - ./backend/:/backend/
+        ports: 
+            - 5000:5000
+        environment:
+            DB_URI: mongodb:27017/db
+            HOST: "0.0.0.0"
+            PORT: 5000
+            FLASK_DEBUG: 1
+volumes:
+  mongo_db:
