@@ -3,9 +3,13 @@ import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
+
+from pymongo.errors import OperationFailure
+
 from infrastructure.repositories import MongoGarmentItemsRepository
 from controller.exceptions import BadRequestException
 from infrastructure.database import connect_to_database
+from utils import generate_response
 
 
 app = Flask(__name__)
@@ -26,15 +30,26 @@ garment_items_repository.set_db_connection(connect_to_database())
 
 @app.errorhandler(BadRequestException)
 def handle_bad_request(error):
-    response = jsonify(error.to_dict())
-    response.status_code = 400
-    return response
+    return generate_response(400, str(error))
+
+
+@app.errorhandler(OperationFailure)
+def handle_bad_request(error):
+    return generate_response(500, 'Database operation failed.')
+
+
+@app.route('/')
+def index():
+    return generate_response(200, 'Alive')
 
 
 @app.route('/search', methods=['GET'])
 @cross_origin()
 def search():
-    garment_items = garment_items_repository.find(request.args.get('q'))
+    query = request.args.get('q')
+    if not query:
+        raise BadRequestException('Invalid query parameters key for the given values.')
+    garment_items = garment_items_repository.find(query)
     result = []
     for item in garment_items:
         result.append({
