@@ -5,7 +5,6 @@ from controller.app import app, Injector
 
 
 class BaseTestCase(TestCase):
-
     def setUp(self):
         self.app = app
         self.app.config.update(

@@ -9,7 +9,7 @@ from pymongo.errors import OperationFailure
 from infrastructure.repositories import MongoGarmentItemsRepository
 from controller.exceptions import BadRequestException
 from infrastructure.database import connect_to_database
-from utils import generate_response
+from controller.utils import generate_response
 
 
 app = Flask(__name__)
@@ -34,7 +34,7 @@ def handle_bad_request(error):
 
 
 @app.errorhandler(OperationFailure)
-def handle_bad_request(error):
+def handle_operation_failure(error):
     return generate_response(500, 'Database operation failed.')
 
 
@@ -48,7 +48,8 @@ def index():
 def search():
     query = request.args.get('q')
     if not query:
-        raise BadRequestException('Invalid query parameters key for the given values.')
+        raise BadRequestException(
+            'Invalid query parameters key for the given values.')
     garment_items = garment_items_repository.find(query)
     result = []
     for item in garment_items:
