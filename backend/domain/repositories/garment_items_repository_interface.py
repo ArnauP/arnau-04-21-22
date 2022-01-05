@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from domain.model import GarmentItem
+from domain.models import GarmentItem
 
 
 class GarmentItemsRepositoryInterface(metaclass=ABCMeta):
