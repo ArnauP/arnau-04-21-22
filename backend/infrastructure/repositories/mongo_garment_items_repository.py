@@ -5,7 +5,7 @@ from domain.models import GarmentItem, Image
 
 class MongoGarmentItemsRepository(BaseRepository,
                                   GarmentItemsRepositoryInterface):
-    def insert(self, garment_item):
+    def insert(self, garment_item: GarmentItem) -> None:
         images = [{
                     "url": image.url,
                     "path": image.path,
@@ -32,7 +32,7 @@ class MongoGarmentItemsRepository(BaseRepository,
         }
         self.db_connection.db.garment_items.insert_one(item)
 
-    def find(self, text):
+    def find(self, text: str) -> list:
         cursor = self.db_connection.db.garment_items.find(
             {"$text": {"$search": f'\"{text}\"'}})
         garment_items = []
@@ -43,7 +43,7 @@ class MongoGarmentItemsRepository(BaseRepository,
                     checksum=image.get("checksum")
                 ) for image in document.get("images")]
             garment_items.append(GarmentItem(
-                id=document.get("_id"),
+                _id=document.get("_id"),
                 product_categories_mapped=document.get(
                     "product_categories_mapped"),
                 product_id=document.get("product_id"),

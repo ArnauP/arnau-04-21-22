@@ -1,15 +1,13 @@
-import os
-
-from flask import Flask, jsonify, request
-from flask_cors import CORS, cross_origin
-
-
 from pymongo.errors import OperationFailure
+from flask_cors import CORS, cross_origin
+from flask import Flask, jsonify, request
 
 from infrastructure.repositories import MongoGarmentItemsRepository
-from controller.exceptions import BadRequestException
 from infrastructure.database import connect_to_database
+from controller.exceptions import BadRequestException
 from controller.utils import generate_response
+
+import os
 
 
 app = Flask(__name__)
@@ -18,6 +16,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 class Injector:
+    """Contains the repositories related to the database type."""
     MONGO_REPOSITORY = MongoGarmentItemsRepository()
 
     def get_repository(self):
@@ -51,16 +50,14 @@ def search():
         raise BadRequestException(
             'Invalid query parameters key for the given values.')
     garment_items = garment_items_repository.find(query)
-    result = []
-    for item in garment_items:
-        result.append({
+    result = [{
             "_id": str(item.id),
             "thumbnail": item.image_urls[0],
             "product_title": item.product_title,
             "stock": item.stock,
             "price": item.price,
             "currency": item.currency_code
-        })
+        } for item in garment_items]
     return jsonify(result)
 
 

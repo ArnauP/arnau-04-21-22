@@ -3,7 +3,7 @@ from test import BaseTestCase
 
 
 class GarmentItemTestCase(BaseTestCase):
-    def test_model_fields(self):
+    def test_model_fields(self) -> None:
         garment_items = self.garment_items_repository.find('Hat')
         assert len(garment_items) >= 1
 

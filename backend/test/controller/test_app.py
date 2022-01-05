@@ -2,8 +2,7 @@ from test import BaseTestCase
 
 
 class SearchEndpointTestCase(BaseTestCase):
-
-    def test_endpoint_returns_query_results(self):
+    def test_endpoint_returns_query_results(self) -> None:
         response = self.client.get('/search?q=Cotton Twill Cap')
 
         assert response.status_code == 200
@@ -16,12 +15,12 @@ class SearchEndpointTestCase(BaseTestCase):
             assert 'price' in item
             assert 'currency' in item
 
-    def test_bad_request_when_no_query(self):
+    def test_bad_request_when_no_query(self) -> None:
         response = self.client.get('/search')
 
         assert response.status_code == 400
 
-    def test_alive(self):
+    def test_alive(self) -> None:
         response = self.client.get('/')
 
         assert response.status_code == 200

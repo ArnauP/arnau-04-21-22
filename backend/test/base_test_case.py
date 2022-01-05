@@ -5,7 +5,7 @@ from controller.app import app, Injector
 
 
 class BaseTestCase(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.app = app
         self.app.config.update(
             TESTING=True,
@@ -17,5 +17,6 @@ class BaseTestCase(TestCase):
         self.garment_items_repository = Injector().get_repository()
         self.garment_items_repository.set_db_connection(self.db_connection)
 
-    def _connect_to_database(self):
+    @staticmethod
+    def _connect_to_database() -> MongoClient:
         return MongoClient(host='mongodb', port=27017)
