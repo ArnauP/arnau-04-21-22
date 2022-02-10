@@ -1,6 +1,6 @@
 # Search bar webapp 
 
-This web application consists in a search bar that looks for items in a MongoDB database. 
+This web application consists in a search bar that looks for items in a MongoDB database. Visit [the website](http://34.238.147.70) to see the project deployed.
 
 ## Installation
 
